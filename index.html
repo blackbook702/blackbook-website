@@ -727,7 +727,7 @@ const GRADS=[
 const LISTINGS=[
  {n:"O'Neal Law Firm",cat:"Legal and Financial Services",d:"Legal services for individuals, families and businesses.",tags:"attorney lawyer legal law"},
  {n:"Kutz and KurlZ Barbershop and Beauty Salon",cat:"Professional Services",d:"Cuts, styles and beauty services for the whole family.",tags:"barber barbershop hair salon stylist beauty"},
- {n:"Ultimate Tax Services",cat:"Legal and Financial Services",d:"Specializing in small business and 1040 tax returns. We maximize your tax returns by finding legal deductions.",tags:"tax taxes accounting bookkeeping 1040 business license credit financial literacy",services:["Personal Taxes","Commercial Taxes","Business Licenses","Financial Literacy"],offers:["Free tax evaluation — text 702-415-1303","Free 2nd look on your taxes","Free Financial Literacy Class","Improve your credit scores"],phone:"702-415-1303",phoneNote:"Text for a free tax evaluation",cats:["Legal and Financial Services","Professional Services","Blackbook Referral Network","BOBC","Blackbook Rewards Card"]},
+ {n:"Ultimate Tax Services",cat:"Legal and Financial Services",d:"Specializing in small business and 1040 tax returns. We maximize your tax returns by finding legal deductions.",tags:"tax taxes accounting bookkeeping 1040 business license credit financial literacy",services:["Personal Taxes","Commercial Taxes","Business Licenses","Financial Literacy"],offers:["Free tax evaluation — text 702-415-1303","Free 2nd look on your taxes","Free Financial Literacy Class","Improve your credit scores"],phone:"702-415-1303",phoneNote:"Text for a free tax evaluation",video:"ultimate-taxes.mp4",poster:"ultimate-taxes-poster.jpg",cats:["Legal and Financial Services","Professional Services","Blackbook Referral Network","BOBC","Blackbook Rewards Card"]},
  {n:"Jerk Dat",cat:"Restaurants, Bars, Lounges & Caterers",d:"Caribbean flavors and jerk specialties.",tags:"food jerk chicken caribbean jamaican restaurant"},
  {n:"Foreign Exchange",cat:"The Blackbook Restaurants and Lounges",d:"A lounge for drinks, music and a night out.",tags:"lounge bar drinks nightlife music black las vegas"},
  {n:"Family Legacy Planners",cat:"Legal and Financial Services",d:"Planning to protect your family and build a lasting legacy.",tags:"estate planning insurance legacy financial"},
@@ -859,7 +859,7 @@ function closeModal(){$("#modal").classList.remove("on");if(!$("#drawer").classL
 function listingModal(id,contact){
   const l=LISTINGS.find(x=>x.id===id);if(!l)return;
   const mail=`mailto:${EMAIL}?subject=${encodeURIComponent("BlackBook inquiry: "+l.n)}`;
-  openModal(`<div class="mbanner" style="background:${l.g}"></div><h2 style="font-size:28px">${esc(l.n)}</h2>
+  openModal(`${l.video?`<video src="${l.video}"${l.poster?` poster="${l.poster}"`:""} controls playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;margin-bottom:18px;display:block"></video>`:`<div class="mbanner" style="background:${l.g}"></div>`}<h2 style="font-size:28px">${esc(l.n)}</h2>
   <div class="cat-label" style="color:var(--gold-2);font-weight:700">${esc(l.cat)}</div>
   <p style="color:var(--muted)">${esc(l.d)}</p>
   ${l.services?`<h3 style="font-size:17px;margin:16px 0 8px">Services</h3><div class="chips" style="margin:0 0 6px">${l.services.map(s=>`<span class="chip" style="cursor:default">${esc(s)}</span>`).join("")}</div>`:""}
