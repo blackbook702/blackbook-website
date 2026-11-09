@@ -794,7 +794,7 @@ function renderHome(){
     const map=[["","barber"],["","tax"],["Restaurants, Bars, Lounges & Caterers",""],["Legal and Financial Services",""],["Things to Do in Vegas",""]][i];
     return `<button data-go="directory" data-cat="${esc(map[0]||"All")}" data-q="${esc(map[1])}">${t}</button>`}).join("");
   $("#homeCats").innerHTML=HOME_CATS.map(n=>catTile(DIR_CATS.find(c=>c.n===n))).join("");
-  $("#homeListings").innerHTML=LISTINGS.slice(0,4).map(listingCard).join("");
+  $("#homeListings").innerHTML=[...LISTINGS.filter(l=>l.n==="Blackbook Media"),...LISTINGS.filter(l=>l.n!=="Blackbook Media")].map(listingCard).join("");
   $("#homeProducts").innerHTML=PRODUCTS.slice(0,4).map(productCard).join("");
 }
 
