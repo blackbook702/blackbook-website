@@ -732,7 +732,7 @@ const LISTINGS=[
  {n:"Foreign Exchange",cat:"The Blackbook Restaurants and Lounges",d:"A lounge for drinks, music and a night out.",tags:"lounge bar drinks nightlife music black las vegas"},
  {n:"Family Legacy Planners",cat:"Legal and Financial Services",d:"Planning to protect your family and build a lasting legacy.",tags:"estate planning insurance legacy financial"},
  {n:"Financial Literacy Group",cat:"Professional Services",d:"Education and coaching to build financial knowledge and confidence.",tags:"finance financial literacy education coaching money"},
- {n:"BBTV – Blackbook TV",cat:"Blackbook Media",d:"Black-owned internet TV stations created to inform, educate and entertain the community. An urban TV station from Blackbook Media focusing on things to do in Vegas.",tags:"bbtv blackbook tv internet tv television stations channel watch stream video financial literacy black knowledge voters shorts vegas",areasTitle:"Stations",practiceAreas:[{t:"The Blackbook Directory Nevada",d:"Spotlights on Black-owned businesses, events and things to do across Las Vegas and Nevada."},{t:"The Financial Literacy Channel",d:"Practical money lessons on credit, budgeting, taxes and building generational wealth."},{t:"IBV Black Voters Matter",d:"Civic engagement, voter information and the issues that matter to the community."},{t:"The Black Knowledge Channel",d:"Black history, culture and education for all ages."},{t:"BB TV Shorts",d:"Short clips, promos and highlights from around the community."}],watch:"https://watch.viloud.tv/wz7gbdog/channel/3c7ec52b0d39ef670eae35a2b4537299",watchLabel:"Watch BBTV now",cats:["Blackbook Media","Things to Do in Vegas"]},
+ {n:"BBTV – Blackbook TV",cat:"Blackbook Media",d:"Black-owned internet TV stations created to inform, educate and entertain the community. An urban TV station from Blackbook Media focusing on things to do in Vegas.",tags:"bbtv blackbook tv internet tv television stations channel watch stream video financial literacy black knowledge voters shorts vegas",areasTitle:"Stations",practiceAreas:[{t:"The Blackbook Directory Nevada",d:"Spotlights on Black-owned businesses, events and things to do across Las Vegas and Nevada."},{t:"The Financial Literacy Channel",d:"Practical money lessons on credit, budgeting, taxes and building generational wealth."},{t:"IBV Black Voters Matter",d:"Civic engagement, voter information and the issues that matter to the community."},{t:"The Black Knowledge Channel",d:"Black history, culture and education for all ages."},{t:"BB TV Shorts",d:"Short clips, promos and highlights from around the community."}],watch:"https://player.viloud.tv/embed/channel/3c7ec52b0d39ef670eae35a2b4537299?autoplay=1&volume=1&controls=1&title=1&share=1&open_playlist=0",watchLabel:"Open BBTV in a new tab",embed:"https://player.viloud.tv/embed/channel/3c7ec52b0d39ef670eae35a2b4537299?autoplay=1&volume=1&controls=1&title=1&share=1&open_playlist=0",cats:["Blackbook Media","Things to Do in Vegas"]},
  {n:"Blackbook Media",cat:"Blackbook Media",d:"A boutique marketing agency offering results-based marketing, with a goal of providing measurable results. The Blackbook Rewards Card is designed to measure your success: your business sets the reward and Blackbook promotes it.",tags:"blackbook media marketing advertising consulting digital billboard media bus party in a bus blackbook tv commercial content creation social media special events networking rewards video game truck",services:["Digital Marketing", "Internet TV Marketing", "Content Creation", "Social Media Management", "Special Events", "Commercial Production", "Mobile Digital Billboard", "Digital Car Billboards", "Digital Backpacks", "Blackbook Media Lounge", "Media Marketing Bus (Party in a Bus)", "Blackbook TV", "Blackbook Rewards Card", "Networking Group"],packages:[{t:"Directory Annual Listing",price:"$180/yr (reg. $240)",d:"A free web page on The BlackBook Directory plus placement on the Blackbook Rewards Card."},{t:"Basic Package",price:"Monthly, semi-annual or annual",d:"Free landing page, Rewards program participation, Black Market product placement, Blackbook Media Billboard advertisement and Networking Group access."},{t:"Premium Plan",price:"Monthly, semi-annual or annual",d:"Free website, Rewards participation, Black Market product placement, Media Bus and Billboard advertisements, Networking Group and Blackbook events."}],offers:["Limited-time special: 2-month upgrade to the Basic Plan, including Digital Billboard and Blackbook Media Lounge digital placement", "Annual listing fee on sale: $180 (regularly $240)", "Blackbook TV: five internet TV stations, including Blackbook Shorts, The Blackbook Directory, Real Talk and Vegas Afterdark", "Coming soon: Blackbook Street Team"],phone:"702-415-1303",phoneNote:"Text for marketing packages",site:"https://www.theblackbook.directory",payment:"Cash, Zelle, Cash App, PayPal / Venmo / credit card",cats:["Blackbook Media", "Professional Services", "Blackbook Referral Network", "BOBC", "Political", "Professional Services Other"]}
 ].map((l,i)=>({...l,id:"l"+i,g:GRADS[i%GRADS.length],featured:true}));
 
@@ -861,7 +861,7 @@ function closeModal(){$("#modal").classList.remove("on");if(!$("#drawer").classL
 function listingModal(id,contact){
   const l=LISTINGS.find(x=>x.id===id);if(!l)return;
   const mail=`mailto:${EMAIL}?subject=${encodeURIComponent("BlackBook inquiry: "+l.n)}`;
-  openModal(`${l.video?`<video src="${l.video}"${l.poster?` poster="${l.poster}"`:""} controls playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;margin-bottom:18px;display:block"></video>`:`<div class="mbanner" style="background:${l.g}"></div>`}<h2 style="font-size:28px">${esc(l.n)}</h2>
+  openModal(`${l.embed?`<div class="tvbox" data-embed="${l.embed}" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:radial-gradient(circle at 30% 30%,#3b2c1c,#0d0b09 70%);margin-bottom:18px;display:grid;place-items:center"><button class="tvplay" aria-label="Play ${esc(l.n)}" style="border:0;background:var(--gold);color:var(--ink);border-radius:999px;padding:16px 26px;font-weight:800;font-size:17px;display:flex;align-items:center;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.4)">▶ Play ${esc(l.n.split(" ")[0])}</button><span style="position:absolute;left:16px;bottom:12px;color:#d8c7a8;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Live · Internet TV</span></div>`:l.video?`<video src="${l.video}"${l.poster?` poster="${l.poster}"`:""} controls playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;margin-bottom:18px;display:block"></video>`:`<div class="mbanner" style="background:${l.g}"></div>`}<h2 style="font-size:28px">${esc(l.n)}</h2>
   <div class="cat-label" style="color:var(--gold-2);font-weight:700">${esc(l.cat)}</div>
   <p style="color:var(--muted)">${esc(l.d)}</p>
   ${l.watch?`<a class="btn btn-gold" href="${l.watch}" target="_blank" rel="noopener" style="margin:2px 0 6px">▶ ${esc(l.watchLabel||"Watch now")}</a>`:""}
@@ -873,6 +873,17 @@ function listingModal(id,contact){
   ${l.phone?`<div class="result-note" style="margin:6px 0 16px;padding:16px"><b>${esc(l.phoneNote||"Contact")}:</b> text <b>${esc(l.phone)}</b></div>`:`<p style="font-size:14.5px">${contact?"To reach this business, contact The BlackBook and we'll connect you:":"Want to connect with this business? Contact The BlackBook:"}</p>
   <p style="font-size:15px"><b>${PHONE}</b> · <b>${EMAIL}</b></p>`}
   <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-gold" href="${mail}">Email The BlackBook</a><button class="btn btn-dark" data-mclose data-go="directory" data-cat="${esc(l.cat)}">More in ${esc(l.cat.split(",")[0])}</button></div>`);
+  if(l.embed)probeTV();
+}
+let tvBlocked=null;
+function probeTV(){
+  const box=document.querySelector("#modal .tvbox");if(!box)return;
+  const toLink=()=>{const b=box.querySelector(".tvplay");if(!b)return;const a=document.createElement("a");a.className=b.className;a.style.cssText=b.style.cssText;a.style.textDecoration="none";a.href=box.dataset.embed;a.target="_blank";a.rel="noopener";a.innerHTML=b.innerHTML;b.replaceWith(a)};
+  if(tvBlocked===true)return toLink();if(tvBlocked===false)return;
+  const onCsp=ev=>{if(String(ev.blockedURI||"").includes("viloud")){tvBlocked=true;toLink()}};
+  document.addEventListener("securitypolicyviolation",onCsp);
+  const f=document.createElement("iframe");f.style.display="none";f.src="https://player.viloud.tv/";document.body.appendChild(f);
+  setTimeout(()=>{document.removeEventListener("securitypolicyviolation",onCsp);f.remove();if(tvBlocked===null)tvBlocked=false},1500);
 }
 
 function checkoutModal(){
@@ -918,7 +929,19 @@ function route(){
 function go(view){if(location.hash==="#"+view)route();else location.hash=view}
 
 /* ---------- events ---------- */
+function playTV(box){
+  const url=box.dataset.embed;
+  const fallback=()=>{box.innerHTML=`<a class="btn btn-gold" href="${url}" target="_blank" rel="noopener" style="font-size:17px">▶ Watch BBTV (opens in a new tab)</a>`};
+  const onCsp=ev=>{if(String(ev.blockedURI||"").includes("viloud")){document.removeEventListener("securitypolicyviolation",onCsp);fallback()}};
+  document.addEventListener("securitypolicyviolation",onCsp);
+  const f=document.createElement("iframe");
+  f.src=url;f.allow="autoplay; fullscreen; picture-in-picture";f.allowFullscreen=true;f.title="BBTV player";
+  f.style.cssText="position:absolute;inset:0;width:100%;height:100%;border:0";
+  box.innerHTML="";box.appendChild(f);
+  setTimeout(()=>document.removeEventListener("securitypolicyviolation",onCsp),5000);
+}
 document.addEventListener("click",e=>{
+  const tv=e.target.closest("button.tvplay");if(tv){playTV(tv.closest(".tvbox"));return}
   const t=e.target.closest("button,a");if(!t)return;
   if(t.dataset.mclose!==undefined)closeModal();
   if(t.dataset.close!==undefined)closeCart();
