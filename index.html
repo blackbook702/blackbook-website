@@ -727,7 +727,7 @@ const GRADS=[
 const LISTINGS=[
  {n:"O'Neal Law Firm",cat:"Legal and Financial Services",d:"Legal services for individuals, families and businesses.",tags:"attorney lawyer legal law"},
  {n:"Kutz and KurlZ Barbershop and Beauty Salon",cat:"Professional Services",d:"Cuts, styles and beauty services for the whole family.",tags:"barber barbershop hair salon stylist beauty"},
- {n:"Ultimate Tax Services",cat:"Legal and Financial Services",d:"Tax preparation and filing for individuals and small businesses.",tags:"tax taxes accounting bookkeeping"},
+ {n:"Ultimate Tax Services",cat:"Legal and Financial Services",d:"Specializing in small business and 1040 tax returns. We maximize your tax returns by finding legal deductions.",tags:"tax taxes accounting bookkeeping 1040 business license credit financial literacy",services:["Personal Taxes","Commercial Taxes","Business Licenses","Financial Literacy"],offers:["Free tax evaluation — text 702-415-1303","Free 2nd look on your taxes","Free Financial Literacy Class","Improve your credit scores"],phone:"702-415-1303",phoneNote:"Text for a free tax evaluation",cats:["Legal and Financial Services","Professional Services","Blackbook Referral Network","BOBC","Blackbook Rewards Card"]},
  {n:"Jerk Dat",cat:"Restaurants, Bars, Lounges & Caterers",d:"Caribbean flavors and jerk specialties.",tags:"food jerk chicken caribbean jamaican restaurant"},
  {n:"Foreign Exchange",cat:"The Blackbook Restaurants and Lounges",d:"A lounge for drinks, music and a night out.",tags:"lounge bar drinks nightlife music black las vegas"},
  {n:"Family Legacy Planners",cat:"Legal and Financial Services",d:"Planning to protect your family and build a lasting legacy.",tags:"estate planning insurance legacy financial"},
@@ -862,9 +862,11 @@ function listingModal(id,contact){
   openModal(`<div class="mbanner" style="background:${l.g}"></div><h2 style="font-size:28px">${esc(l.n)}</h2>
   <div class="cat-label" style="color:var(--gold-2);font-weight:700">${esc(l.cat)}</div>
   <p style="color:var(--muted)">${esc(l.d)}</p>
-  <dl class="meta"><dt>Category</dt><dd>${esc(l.cat)}</dd><dt>Listed in</dt><dd>The BlackBook${l.featured?" · Featured":""}</dd></dl>
-  <p style="font-size:14.5px">${contact?"To reach this business, contact The BlackBook and we'll connect you:":"Want to connect with this business? Contact The BlackBook:"}</p>
-  <p style="font-size:15px"><b>${PHONE}</b> · <b>${EMAIL}</b></p>
+  ${l.services?`<h3 style="font-size:17px;margin:16px 0 8px">Services</h3><div class="chips" style="margin:0 0 6px">${l.services.map(s=>`<span class="chip" style="cursor:default">${esc(s)}</span>`).join("")}</div>`:""}
+  ${l.offers?`<h3 style="font-size:17px;margin:16px 0 8px">Offers</h3><ul style="margin:0;padding-left:20px;font-size:14.5px;line-height:1.7">${l.offers.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>`:""}
+  <dl class="meta"><dt>Category</dt><dd>${esc(l.cats?l.cats.join(" · "):l.cat)}</dd><dt>Listed in</dt><dd>The BlackBook${l.featured?" · Featured":""}</dd>${l.phone?`<dt>Phone</dt><dd><a href="sms:${l.phone.replace(/\D/g,"")}">${esc(l.phone)}</a>${l.phoneNote?` <span style="font-weight:400;color:var(--muted)">(${esc(l.phoneNote)})</span>`:""}</dd>`:""}</dl>
+  ${l.phone?`<div class="result-note" style="margin:6px 0 16px;padding:16px"><b>${esc(l.phoneNote||"Contact")}:</b> text <b>${esc(l.phone)}</b></div>`:`<p style="font-size:14.5px">${contact?"To reach this business, contact The BlackBook and we'll connect you:":"Want to connect with this business? Contact The BlackBook:"}</p>
+  <p style="font-size:15px"><b>${PHONE}</b> · <b>${EMAIL}</b></p>`}
   <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-gold" href="${mail}">Email The BlackBook</a><button class="btn btn-dark" data-mclose data-go="directory" data-cat="${esc(l.cat)}">More in ${esc(l.cat.split(",")[0])}</button></div>`);
 }
 
