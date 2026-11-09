@@ -6,4 +6,4 @@ Website for The BlackBook – a small business directory focused on Black-owned 
 
 To view it, open `index.html` in a browser. To host it free, turn on GitHub Pages for this repository (Settings → Pages → Deploy from branch → `main`).
 
-Contact: 702-415-1303 · lvblackbook702@gmail.com
+Contact: 702-415-1303 · blackbooklv@gmail.com
