@@ -1006,8 +1006,8 @@ function productCard(p){const inCart=S.cart[p.id];const has=p.p!=null;return `<a
 function renderHome(){
   const sel=$("#heroCat");
   sel.innerHTML=`<option value="All">All categories</option>`+DIR_CATS.map(c=>`<option>${esc(c.n)}</option>`).join("");
-  $("#quickCats").innerHTML=["Barbers & beauty","Tax services","Restaurants","Legal","Things to do"].map((t,i)=>{
-    const map=[["","barber"],["","tax"],["Restaurants, Bars, Lounges & Caterers",""],["Legal and Financial Services",""],["Things to Do in Black Vegas",""]][i];
+  $("#quickCats").innerHTML=["Professional services","Tax services","Restaurants","Legal","Things to do"].map((t,i)=>{
+    const map=[["Professional Services",""],["","tax"],["Restaurants, Bars, Lounges & Caterers",""],["Legal and Financial Services",""],["Things to Do in Black Vegas",""]][i];
     return `<button data-go="directory" data-cat="${esc(map[0]||"All")}" data-q="${esc(map[1])}">${t}</button>`}).join("");
   $("#homeCats").innerHTML=HOME_CATS.map(n=>catTile(DIR_CATS.find(c=>c.n===n))).join("");
   $("#homeListings").innerHTML=[...LISTINGS.filter(l=>l.featured&&l.cat==="Blackbook Media").reverse(),...LISTINGS.filter(l=>l.featured&&l.cat!=="Blackbook Media")].map(listingCard).join("");
