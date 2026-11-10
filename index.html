@@ -1006,8 +1006,8 @@ function productCard(p){const inCart=S.cart[p.id];const has=p.p!=null;return `<a
 function renderHome(){
   const sel=$("#heroCat");
   sel.innerHTML=`<option value="All">All categories</option>`+DIR_CATS.map(c=>`<option>${esc(c.n)}</option>`).join("");
-  $("#quickCats").innerHTML=["Professional services","Things to Do in Black Vegas","For Rent or Sale by Owner","Legal","Things to do"].map((t,i)=>{
-    const map=[["Professional Services",""],["Things to Do in Black Vegas",""],["For Rent or Sale by Owner",""],["Legal and Financial Services",""],["Things to Do in Black Vegas",""]][i];
+  $("#quickCats").innerHTML=["Professional services","Things to Do in Black Vegas","For Rent or Sale by Owner","Community Outreach","Things to do"].map((t,i)=>{
+    const map=[["Professional Services",""],["Things to Do in Black Vegas",""],["For Rent or Sale by Owner",""],["Community Outreach",""],["Things to Do in Black Vegas",""]][i];
     return `<button data-go="directory" data-cat="${esc(map[0]||"All")}" data-q="${esc(map[1])}">${t}</button>`}).join("");
   $("#homeCats").innerHTML=HOME_CATS.map(n=>catTile(DIR_CATS.find(c=>c.n===n))).join("");
   $("#homeListings").innerHTML=[...LISTINGS.filter(l=>l.featured&&l.cat==="Blackbook Media").reverse(),...LISTINGS.filter(l=>l.featured&&l.cat!=="Blackbook Media")].map(listingCard).join("");
@@ -1020,7 +1020,8 @@ function renderDirectory(){
   $("#dirSide").innerHTML=`<button class="${S.dirCat==="All"?"on":""}" data-cat-pick="All"><span>All categories</span><small>${total}</small></button>`+
     Object.entries(groups).map(([g,cs])=>`<h4>${g}</h4>`+cs.map(c=>`<button class="${S.dirCat===c.n?"on":""}" data-cat-pick="${esc(c.n)}"><span>${esc(c.n)}</span><small>${c.c||"New"}</small></button>`).join("")).join("");
   const q=S.dirQ.trim().toLowerCase();
-  let list=LISTINGS.filter(l=>(S.dirCat==="All"||l.cat===S.dirCat||(l.cats||[]).includes(S.dirCat)||(l.also||[]).includes(S.dirCat))&&(!q||(l.n+" "+l.cat+" "+l.tags+" "+l.d).toLowerCase().includes(q)));
+  const grp=DIR_CATS.filter(c=>c.g===S.dirCat).map(c=>c.n);
+  let list=LISTINGS.filter(l=>(S.dirCat==="All"||l.cat===S.dirCat||(l.cats||[]).includes(S.dirCat)||(l.also||[]).includes(S.dirCat)||(grp.length&&[l.cat,...(l.also||[]),...(l.cats||[])].some(x=>grp.includes(x))))&&(!q||(l.n+" "+l.cat+" "+l.tags+" "+l.d).toLowerCase().includes(q)));
   if($("#dirSort").value==="az")list=[...list].sort((a,b)=>a.n.localeCompare(b.n));
   $("#dirListings").innerHTML=list.map(listingCard).join("");
   const catObj=DIR_CATS.find(c=>c.n===S.dirCat);
