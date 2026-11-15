@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The BlackBook – Locate Businesses, Products and Services</title>
+<!-- Google Tag Manager -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+</script>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-M6T6BRVD"></script>
+<!-- End Google Tag Manager -->
 <meta name="description" content="The BlackBook is a small business directory focused on Black-owned businesses, with The Black Market online store.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -288,6 +297,9 @@ footer.site button:hover,footer.site a:hover{color:var(--gold)}
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6T6BRVD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <a href="#main" class="skip">Skip to content</a>
 <div class="kente" aria-hidden="true"></div>
 <div class="topbar">
@@ -651,6 +663,16 @@ footer.site button:hover,footer.site a:hover{color:var(--gold)}
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const PHONE="702-415-1303", EMAIL="blackbooklv@gmail.com";
+/* SwipeSimple payment link (customer enters the amount). Paste the link from your SwipeSimple account here to turn on card payments at checkout. */
+const PAY_LINK="";
+/* Google Tag Manager (container GTM-M6T6BRVD is loaded in <head>). Site events are pushed to the dataLayer:
+   page_view {page_path,page_title}, view_category {category,section}, view_business {business,category}.
+   Optional: also paste a GA4 Measurement ID (G-XXXXXXXXXX) below to send the same events straight to Google Analytics. */
+const GA_ID="";
+const track=(()=>{let last={};window.dataLayer=window.dataLayer||[];
+  if(GA_ID){gtag("config",GA_ID,{send_page_view:false});const sc=document.createElement("script");sc.async=true;sc.src="https://www.googletagmanager.com/gtag/js?id="+GA_ID;document.head.appendChild(sc)}
+  return (ev,params,key)=>{const k=key||ev;const v=JSON.stringify(params);if(key&&last[k]===v)return;last[k]=v;
+    try{dataLayer.push(Object.assign({event:ev},params));if(GA_ID)gtag("event",ev,params)}catch(e){}}})();
 
 /* ---------- icons ---------- */
 const I={
@@ -685,7 +707,8 @@ const I={
  spice:'<path d="M7 9h10v12H7z"/><path d="M8 9V5h8v4M7 14h10"/>',
  pillow:'<path d="M4 6c3 1 13 1 16 0-1 4-1 8 0 12-3-1-13-1-16 0 1-4 1-8 0-12z"/>',
  ticket:'<path d="M3 8a2 2 0 0 0 0 4v4h18v-4a2 2 0 0 1 0-4V4H3z" transform="translate(0 2)"/>',
- store:'<path d="M3 9l2-5h14l2 5M3 9v11h18V9M3 9h18M9 20v-6h6v6"/>'
+ store:'<path d="M3 9l2-5h14l2 5M3 9v11h18V9M3 9h18M9 20v-6h6v6"/>',
+ car:'<path d="M5 17H3v-5l2-5h14l2 5v5h-2"/><path d="M3 12h18"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><path d="M9.5 17h5"/>'
 };
 const svg=(k,sw=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${I[k]||I.star}</svg>`;
 
@@ -705,6 +728,7 @@ const DIR_CATS=[
  {n:"For Rent or Sale by Owner",c:5,i:"key",g:"Rent & Sale"},
  {n:"For Rent by Owner",c:1,i:"key",g:"Rent & Sale"},
  {n:"For Sale By Owner",c:5,i:"tag",g:"Rent & Sale"},
+ {n:"Black Auto Trader",c:0,i:"car",g:"Rent & Sale"},
  {n:"Non-Profit Organizations",c:6,i:"heart",g:"Community Outreach"},
  {n:"Churches",c:0,i:"church",g:"Community Outreach"},
  {n:"Community Events",c:16,i:"cal",g:"Community Outreach"},
@@ -712,7 +736,7 @@ const DIR_CATS=[
  {n:"Blackbook Media",c:22,i:"mic",g:"Community Outreach"},
  {n:"Supporter Sponsor",c:0,i:"heart",g:"Community Outreach"}
 ];
-const HOME_CATS=["Blackbook Rewards Promotional Savings","Legal and Financial Services","Restaurants, Bars, Lounges & Caterers","Construction and Maintenance","Blackbook Media","Blackbook Referral Network","Barber & Beauty Salons","Things to Do in Black Vegas","Real Estate"];
+const HOME_CATS=["Blackbook Rewards Promotional Savings","Legal and Financial Services","Restaurants, Bars, Lounges & Caterers","Construction and Maintenance","Blackbook Media","Blackbook Referral Network","Barber & Beauty Salons","Things to Do in Black Vegas","Real Estate","Black Auto Trader"];
 
 /* ---------- listings (featured on the current site) ---------- */
 const GRADS=[
@@ -730,7 +754,7 @@ const LISTINGS=[
  {n:"Foreign Exchange",cat:"Restaurants, Bars, Lounges & Caterers",also:["Blackbook Referral Network","Professional Services"],photo:FX_IMG,d:"A lounge for drinks, music and a night out.",tags:"lounge bar drinks nightlife music black las vegas"},
  {n:"Family Legacy Planners",cat:"Legal and Financial Services",also:["Blackbook Rewards Promotional Savings","Professional Services"],d:"Planning to protect your family and build a lasting legacy.",tags:"estate planning insurance legacy financial"},
  {n:"Financial Literacy Group",cat:"Legal and Financial Services",also:["Blackbook Rewards Promotional Savings","Blackbook Referral Network"],d:"Education and coaching to build financial knowledge and confidence.",tags:"finance financial literacy education coaching money"},
- {n:"BBTV – Blackbook TV",cat:"Blackbook Media",also:["Professional Services"],d:"Black-owned internet TV stations created to inform, educate and entertain the community. An urban TV station from Blackbook Media focusing on things to do in Vegas.",tags:"bbtv blackbook tv internet tv television stations channel watch stream video financial literacy black knowledge voters shorts vegas",areasTitle:"Stations",practiceAreas:[{t:"The Blackbook Directory Nevada",d:"Spotlights on Black-owned businesses, events and things to do across Las Vegas and Nevada."},{t:"The Financial Literacy Channel",d:"Practical money lessons on credit, budgeting, taxes and building generational wealth."},{t:"IBV Black Voters Matter",d:"Civic engagement, voter information and the issues that matter to the community."},{t:"The Black Knowledge Channel",d:"Black history, culture and education for all ages."},{t:"BB TV Shorts",d:"Short clips, promos and highlights from around the community."}],watch:"https://player.viloud.tv/embed/channel/3c7ec52b0d39ef670eae35a2b4537299?autoplay=1&volume=1&controls=1&title=1&share=1&open_playlist=0",watchLabel:"Open BBTV in a new tab",embed:"https://player.viloud.tv/embed/channel/3c7ec52b0d39ef670eae35a2b4537299?autoplay=1&volume=1&controls=1&title=1&share=1&open_playlist=0",cats:["Blackbook Media","Things to Do in Black Vegas"]},
+ {n:"BBTV – Blackbook TV",cat:"Blackbook Media",also:["Professional Services"],d:"Black-owned internet TV stations created to inform, educate and entertain the community. An urban TV station from Blackbook Media focusing on things to do in Vegas.",tags:"bbtv blackbook tv internet tv television stations channel watch stream video financial literacy black knowledge voters shorts vegas",areasTitle:"Stations",practiceAreas:[{t:"The Blackbook Directory Nevada",d:"Spotlights on Black-owned businesses, events and things to do across Las Vegas and Nevada."},{t:"The Financial Literacy Channel",d:"Practical money lessons on credit, budgeting, taxes and building generational wealth.",play:"https://watch.viloud.tv/wz7gbdog/channel/2f22a29b04794e23350ce79da0c3a3e1"},{t:"IBV Black Voters Matter",d:"Civic engagement, voter information and the issues that matter to the community.",play:"https://watch.viloud.tv/wz7gbdog/channel/8f5cfc488b7df19ff6d7102c94d7f848"},{t:"The Black Knowledge Channel",d:"Black history, culture and education for all ages.",play:"https://watch.viloud.tv/wz7gbdog/channel/b104a0baf889243855444ed603095c83"},{t:"BB TV Shorts",d:"Short clips, promos and highlights from around the community.",play:"https://watch.viloud.tv/wz7gbdog/channel/c9591381fca0ccdb4100356e9a4bedd4"}],watch:"https://www.blackbooklv.tv",watchLabel:"Watch at www.blackbooklv.tv",embed:"https://www.blackbooklv.tv",cats:["Blackbook Media","Things to Do in Black Vegas"]},
  {n:"Blackbook Media",cat:"Blackbook Media",d:"A boutique marketing agency offering results-based marketing, with a goal of providing measurable results. The Blackbook Rewards Card is designed to measure your success: your business sets the reward and Blackbook promotes it.",tags:"blackbook media marketing advertising consulting digital billboard media bus party in a bus blackbook tv commercial content creation social media special events networking rewards video game truck",services:["Digital Marketing", "Internet TV Marketing", "Content Creation", "Social Media Management", "Special Events", "Commercial Production", "Mobile Digital Billboard", "Digital Car Billboards", "Digital Backpacks", "Blackbook Media Lounge", "Media Marketing Bus (Party in a Bus)", "Blackbook TV", "Blackbook Rewards Card", "Networking Group"],packages:[{t:"Directory Annual Listing",price:"$180/yr (reg. $240)",d:"A free web page on The BlackBook Directory plus placement on the Blackbook Rewards Card."},{t:"Basic Package",price:"Monthly, semi-annual or annual",d:"Free landing page, Rewards program participation, Black Market product placement, Blackbook Media Billboard advertisement and Networking Group access."},{t:"Premium Plan",price:"Monthly, semi-annual or annual",d:"Free website, Rewards participation, Black Market product placement, Media Bus and Billboard advertisements, Networking Group and Blackbook events."}],offers:["Limited-time special: 2-month upgrade to the Basic Plan, including Digital Billboard and Blackbook Media Lounge digital placement", "Annual listing fee on sale: $180 (regularly $240)", "Blackbook TV: five internet TV stations, including Blackbook Shorts, The Blackbook Directory, Real Talk and Vegas Afterdark", "Coming soon: Blackbook Street Team"],phone:"702-415-1303",phoneNote:"Text for marketing packages",site:"https://www.theblackbook.directory",payment:"Cash, Zelle, Cash App, PayPal / Venmo / credit card",cats:["Blackbook Media", "Professional Services", "Blackbook Referral Network", "The Black Agenda - Creating Political Power!", "Professional Services Other"]},
  {n:"Mingo Health Solutions",cat:"Professional Services",d:"Behavioral health and ABA therapy services, with offices and a clinic on S. Eastern Ave in Las Vegas.",tags:"health behavioral aba therapy clinic",page:"https://theblackbusinessdirectory.biz/product/mingo-health-solutions/",tel:"702-848-1696",featured:false},
  {n:"Elite Health and Wellness",cat:"Professional Services",also:["Blackbook Referral Network"],d:"Health and wellness services for the Las Vegas community.",tags:"health wellness",page:"https://theblackbusinessdirectory.biz/product/elite-health-and-wellness/",featured:false},
@@ -872,6 +896,7 @@ const BARWARE_IMG="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCg
 const P_GR=["#f3dfb1","#e9c9a4","#d5e3d3","#f0d3c8","#e7dccb","#dfe0ea"];
 const PRODUCTS=[
  {n:"The Blackbook Rewards Card",cat:"Rewards",p:null,i:"card",bg:"#0d0d0d",url:"https://theblackbusinessdirectory.biz/product/the-blackbook-rewards-card/",photo:REWARDS_IMG,dark:true,home:true},
+ {n:"Boulder Highway Swap Meet",cat:"Local Businesses",p:null,i:"store",bg:"#ffffff",url:"https://theblackbusinessdirectory.biz/product/boulder-highway-swap-meet/",photo:SWAP_IMG,d:"4700 Boulder Highway, Las Vegas. Browse local vendors for deals on everyday goods, and pick up your Black Market orders here.",home:true},
  {n:"Digital Backpack",cat:"Electronics, E-bikes & Scooters",p:30,was:85,i:"bolt",bg:"#ffffff",url:"https://theblackbusinessdirectory.biz/product/digital-backpacks/",photo:BACKPACK_IMG,home:true},
  {n:"Digital Face Mask",cat:"Electronics, E-bikes & Scooters",p:20,was:40,i:"bolt",bg:"#ffffff",url:"https://theblackbusinessdirectory.biz/product/digital-face-mask/",photo:FACEMASK_IMG},
  {n:"Digital Shoulder Backpacks",cat:"Electronics, E-bikes & Scooters",p:25,was:65,i:"bolt",bg:"#dfe0ea",url:"https://theblackbusinessdirectory.biz/product/digital-shoulder-backpack/",img:"https://theblackbusinessdirectory.biz/wp-content/uploads/2024/09/LED-Bags2.png"},
@@ -967,14 +992,13 @@ const PRODUCTS=[
  {n:"True Stainless Steel Barware set",cat:"Household & Home",p:20,was:41.99,i:"home",bg:"#ffffff",url:"https://theblackbusinessdirectory.biz/product/true-stainless-steel-barware-set/",photo:BARWARE_IMG},
  {n:"Vanity Fair Napkins 250 Count",cat:"Household & Home",p:5.79,was:8.29,i:"home",bg:"#d5e3d3",url:"https://theblackbusinessdirectory.biz/product/vanityfair-napkins/",img:"https://theblackbusinessdirectory.biz/wp-content/uploads/2024/07/vanityfair-napkins-300x292.png"},
  {n:"Woolite Darks Defense Liquid Laundry Detergent, Woolite Dark, Laundry Detergent, 66 Loads, 100 Fl Oz, HE & Regular Washers",cat:"Household & Home",p:12,was:17.79,i:"home",bg:"#d5e3d3",url:"https://theblackbusinessdirectory.biz/product/woolite-darks-defense-liquid-laundry-detergent-woolite-dark-laundry-detergent-66-loads-100-fl-oz-he-regular-washers/",img:"https://theblackbusinessdirectory.biz/wp-content/uploads/2024/05/Screenshot-889-300x300.png"},
- {n:"Boulder Highway Swap Meet",cat:"Local Businesses",p:null,i:"store",bg:"#ffffff",url:"https://theblackbusinessdirectory.biz/product/boulder-highway-swap-meet/",photo:SWAP_IMG,d:"4700 Boulder Highway, Las Vegas. Browse local vendors for deals on everyday goods, and pick up your Black Market orders here."},
  {n:"Green Valley Pharmacy",cat:"Local Businesses",p:null,i:"store",bg:"#ffffff",url:"https://theblackbusinessdirectory.biz/product/green-valley-pharmacy/",photo:PHARM_IMG},
  {n:"Revlon Turbo-Speed 1875W Hair Dryer",cat:"Household & Home",p:20,was:30,i:"home",bg:"#ffffff",photo:REVLON_IMG,stock:5,home:true,d:"1875-watt Revlon Turbo-Speed dryer for fast, flawless drying. Turbo airflow button, ionic technology to fight frizz and boost shine, 3X ceramic coating for protection, and a diffuser attachment."},
  {n:"Replacement Brush Heads, 5 pcs",cat:"Personal Care & Health",p:4,i:"bottle",bg:"#ffffff",photo:BRUSH_IMG,stock:60,home:true,d:"Pack of 5 replacement electric toothbrush heads with soft bristles and color rings so everyone in the family has their own."},
  {n:"Glade PlugIns Scented Oil Refills, Wonder Melon, 2 Pack",cat:"Household & Home",p:7.99,was:9.99,i:"home",bg:"#ffffff",photo:GLADE_IMG,stock:30,d:"Limited Edition Wonder Melon scent. Two 0.67 fl oz refills for Glade PlugIns scented oil warmers."}
 ].map((p,i)=>({...p,id:"bm"+i}));
-const M_ORDER=["Rewards", "Electronics, E-bikes & Scooters", "Personal Care & Health", "Household & Home", "Local Businesses"];
-const M_CATS=["All","It's a Deal",...M_ORDER.filter(c=>PRODUCTS.some(p=>p.cat===c))];
+const M_ORDER=["Rewards", "Electronics, E-bikes & Scooters", "Black Auto Trader", "Personal Care & Health", "Household & Home", "Local Businesses"];
+const M_CATS=["All","It's a Deal",...M_ORDER.filter(c=>c==="Black Auto Trader"||PRODUCTS.some(p=>p.cat===c))];
 
 /* ---------- things to do ---------- */
 const TTD=[
@@ -1017,6 +1041,7 @@ function renderHome(){
 }
 
 function renderDirectory(){
+  if(S.dirCat!=="All")track("view_category",{category:S.dirCat,section:"Directory"},"dircat");
   const groups={};DIR_CATS.forEach(c=>(groups[c.g]=groups[c.g]||[]).push(c));
   const total=DIR_CATS.reduce((a,c)=>a+c.c,0);
   $("#dirSide").innerHTML=`<button class="${S.dirCat==="All"?"on":""}" data-cat-pick="All"><span>All categories</span><small>${total}</small></button>`+
@@ -1039,13 +1064,14 @@ function renderDirectory(){
 }
 
 function renderMarket(){
+  if(S.mCat!=="All")track("view_category",{category:S.mCat,section:"The Black Market"},"mcat");
   $("#mChips").innerHTML=M_CATS.map(c=>`<button class="chip${S.mCat===c?" on":""}" data-mcat-pick="${esc(c)}">${esc(c)}</button>`).join("");
   const q=S.mQ.trim().toLowerCase();
   let list=PRODUCTS.filter(p=>(S.mCat==="All"||p.cat===S.mCat||(S.mCat==="It's a Deal"&&p.was))&&(!q||(p.n+" "+p.cat+" "+p.d).toLowerCase().includes(q)));
   const s=$("#mSort").value;
   if(s==="low")list=[...list].sort((a,b)=>(a.p??1e9)-(b.p??1e9));
   if(s==="high")list=[...list].sort((a,b)=>(b.p??-1)-(a.p??-1));
-  $("#mProducts").innerHTML=list.length?list.map(productCard).join(""):`<div class="result-note" style="grid-column:1/-1"><h3>No products found</h3><p>Try another search or category.</p></div>`;
+  $("#mProducts").innerHTML=list.length?list.map(productCard).join(""):S.mCat==="Black Auto Trader"&&!q?`<div class="result-note" style="grid-column:1/-1"><h3>Black Auto Trader</h3><p>Find cars, trucks and vehicles from Black-owned dealers and sellers. Listings are coming soon.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-gold" data-go="directory" data-cat="Black Auto Trader">See Black Auto Trader dealers</button><a class="btn btn-dark" href="#list-your-business">Sell a vehicle</a></div></div>`:`<div class="result-note" style="grid-column:1/-1"><h3>No products found</h3><p>Try another search or category.</p></div>`;
 }
 
 function renderTTD(){
@@ -1079,13 +1105,14 @@ function closeModal(){$$("#modal video").forEach(v=>v.pause());const tb=document
 
 function listingModal(id,contact){
   const l=LISTINGS.find(x=>x.id===id);if(!l)return;
+  track("view_business",{business:l.n,category:l.cat});
   const mail=`mailto:${EMAIL}?subject=${encodeURIComponent("BlackBook inquiry: "+l.n)}`;
   openModal(`${l.embed?`<div class="tvbox" data-embed="${l.embed}" style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:radial-gradient(circle at 30% 30%,#3b2c1c,#0d0b09 70%);margin-bottom:18px;display:grid;place-items:center"><button class="tvplay" aria-label="Play ${esc(l.n)}" style="border:0;background:var(--gold);color:var(--ink);border-radius:999px;padding:16px 26px;font-weight:800;font-size:17px;display:flex;align-items:center;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.4)">▶ Play ${esc(l.n.split(" ")[0])}</button><span style="position:absolute;left:16px;bottom:12px;color:#d8c7a8;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Live · Internet TV</span></div>`:l.video?`<video src="${l.video}"${l.poster?` poster="${l.poster}"`:""}${l.autoplay?" autoplay":""} controls playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;margin-bottom:18px;display:block"></video>`:l.photo?`<img src="${l.photo}" alt="${esc(l.n)}" style="width:100%;border-radius:12px;margin-bottom:18px;display:block">`:`<div class="mbanner" style="background:${l.g}"></div>`}<h2 style="font-size:28px">${esc(l.n)}</h2>
   <div class="cat-label" style="color:var(--gold-2);font-weight:700">${esc(l.cat)}</div>
   <p style="color:var(--muted)">${esc(l.d)}</p>
   ${l.watch?`<a class="btn btn-gold" href="${l.watch}" target="_blank" rel="noopener" style="margin:2px 0 6px">▶ ${esc(l.watchLabel||"Watch now")}</a>`:""}
-  ${l.practiceAreas?`<h3 style="font-size:17px;margin:16px 0 10px">${esc(l.areasTitle||"Practice Areas")}</h3><div style="display:grid;gap:10px;margin-bottom:6px">${l.practiceAreas.map(p=>`<div style="background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:12px 14px"><b style="display:block;font-size:15px;margin-bottom:3px">${esc(p.t)}</b><span style="font-size:14px;color:var(--muted);line-height:1.5">${esc(p.d)}</span></div>`).join("")}</div>`:""}
-  ${l.packages?`<h3 style="font-size:17px;margin:16px 0 10px">${esc(l.packagesTitle||"Packages")}</h3><div style="display:grid;gap:10px;margin-bottom:6px">${l.packages.map(p=>`<div style="background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:12px 14px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b style="font-size:15px">${esc(p.t)}</b><span style="font-weight:700;color:var(--gold-2);font-size:14px">${esc(p.price)}</span></div><span style="font-size:14px;color:var(--muted);line-height:1.5">${esc(p.d)}</span></div>`).join("")}</div>`:""}
+  ${l.practiceAreas?`<h3 style="font-size:17px;margin:16px 0 10px">${esc(l.areasTitle||"Practice Areas")}</h3><div style="display:grid;gap:10px;margin-bottom:6px">${l.practiceAreas.map(p=>`<div style="background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:12px 14px"><b style="display:block;font-size:15px;margin-bottom:3px">${esc(p.t)}</b><span style="font-size:14px;color:var(--muted);line-height:1.5">${esc(p.d)}</span>${p.play?`<br><a class="btn btn-gold" href="${p.play}" target="_blank" rel="noopener" style="margin-top:10px;padding:8px 14px;font-size:14px">▶ Play ${esc(p.t)}</a>`:""}</div>`).join("")}</div>`:""}
+  ${l.packages?`<h3 style="font-size:17px;margin:16px 0 10px">${esc(l.packagesTitle||"Packages")}</h3><div style="display:grid;gap:10px;margin-bottom:6px">${l.packages.map(p=>`<div style="background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:12px 14px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b style="font-size:15px">${esc(p.t)}</b><span style="font-weight:700;color:var(--gold-2);font-size:14px">${esc(p.price)}</span></div><span style="font-size:14px;color:var(--muted);line-height:1.5">${esc(p.d)}</span>${p.play?`<br><a class="btn btn-gold" href="${p.play}" target="_blank" rel="noopener" style="margin-top:10px;padding:8px 14px;font-size:14px">▶ Play ${esc(p.t)}</a>`:""}</div>`).join("")}</div>`:""}
   ${l.services?`<h3 style="font-size:17px;margin:16px 0 8px">Services</h3><div class="chips" style="margin:0 0 6px">${l.services.map(s=>`<span class="chip" style="cursor:default">${esc(s)}</span>`).join("")}</div>`:""}
   ${l.offers?`<h3 style="font-size:17px;margin:16px 0 8px">Offers</h3><ul style="margin:0;padding-left:20px;font-size:14.5px;line-height:1.7">${l.offers.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>`:""}
   ${l.salon?`<h3 style="font-size:17px;margin:20px 0 4px">${esc(l.salon.title)}</h3>${l.salon.sub?`<p style="font-size:13.5px;color:var(--muted);margin:0 0 10px">${esc(l.salon.sub)}</p>`:""}<div style="display:grid;gap:10px;margin-bottom:8px">${l.salon.items.map(p=>`<div style="background:var(--card);border:1px solid var(--line);border-left:4px solid #d64f86;border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b style="font-size:15px">${esc(p.t)}</b><span style="font-weight:700;color:var(--gold-2);font-size:14px">${esc(p.price)}</span></div>`).join("")}</div>${l.salon.notes?`<ul style="margin:0 0 10px;padding-left:20px;font-size:14px;line-height:1.7;color:var(--muted)">${l.salon.notes.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>`:""}${l.salon.book?`<a class="btn btn-gold" href="${l.salon.book}" target="_blank" rel="noopener" style="margin:2px 0 8px">${esc(l.salon.bookLabel||"Book online")}</a>`:""}`:""}
@@ -1101,6 +1128,7 @@ let tvBlocked=null;
 function probeTV(){
   const box=document.querySelector("#modal .tvbox");if(!box)return;
   const toLink=()=>{const b=box.querySelector(".tvplay");if(!b)return;const a=document.createElement("a");a.className=b.className;a.style.cssText=b.style.cssText;a.style.textDecoration="none";a.href=box.dataset.embed;a.target="_blank";a.rel="noopener";a.innerHTML=b.innerHTML;b.replaceWith(a)};
+  return toLink();
   if(tvBlocked===true)return toLink();if(tvBlocked===false)return;
   const onCsp=ev=>{if(String(ev.blockedURI||"").includes("viloud")){tvBlocked=true;toLink()}};
   document.addEventListener("securitypolicyviolation",onCsp);
@@ -1111,11 +1139,13 @@ function probeTV(){
 function checkoutModal(){
   const ids=Object.keys(S.cart);let sub=0;
   const lines=ids.map(id=>{const p=PRODUCTS.find(x=>x.id===id);sub+=p.p*S.cart[id];return `${S.cart[id]} × ${p.n} — ${money(p.p*S.cart[id])}`});
-  const body=`Hello, I'd like to order from The Black Market:\n\n${lines.join("\n")}\n\nSubtotal: ${money(sub)}\n\nName:\nPhone:\nShipping or pickup:`;
+  const ref="BM-"+Date.now().toString(36).toUpperCase();
+  const body=`Hello, I'd like to order from The Black Market (order ${ref}):\n\n${lines.join("\n")}\n\nSubtotal: ${money(sub)}\n\nName:\nPhone:\nShipping or pickup:`;
   const mail=`mailto:${EMAIL}?subject=${encodeURIComponent("Black Market order")}&body=${encodeURIComponent(body)}`;
   openModal(`<h2 style="font-size:28px">Complete your order</h2>
   <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14.5px">${lines.map(esc).join("<br>")}<hr style="border:0;border-top:1px solid var(--line)"><b>Subtotal: ${money(sub)}</b></div>
-  <p style="font-size:15px">Send your order to The Black Market and we'll confirm availability, shipping and payment with you.</p>
+  ${PAY_LINK?`<div style="background:#fff;border:1.5px solid var(--gold);border-radius:12px;padding:16px;margin:0 0 16px"><b style="font-size:16px">Pay by credit or debit card</b><p style="font-size:14.5px;margin:6px 0 12px">You'll go to SwipeSimple's secure checkout. Enter <b>${money(sub)}</b> as the amount and include your order number <b>${ref}</b>. Then email us your order below so we can arrange pickup or delivery.</p><a class="btn btn-gold" href="${PAY_LINK}" target="_blank" rel="noopener">💳 Pay ${money(sub)} by card</a></div>`:""}
+  <p style="font-size:15px">${PAY_LINK?"Or send":"Send"} your order to The Black Market and we'll confirm availability, shipping and payment with you.</p>
   <p style="font-size:15px">Call <b>${PHONE}</b> or email <b>${EMAIL}</b>.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-gold" href="${mail}">Email my order</a><button class="btn btn-dark" id="copyOrder">Copy order details</button></div>
   <div class="notice" id="copyNote"></div>`);
@@ -1141,6 +1171,7 @@ function route(){
   let h=(location.hash||"#home").slice(1);
   if(h==="main")return;
   if(!VIEWS.includes(h))h="home";
+  track("page_view",{page_title:h,page_location:location.origin+location.pathname+"#"+h,page_path:"/"+h});
   $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+h));
   $$("nav.main a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+h));
   $("#nav").classList.remove("open");$("#menuBtn").setAttribute("aria-expanded","false");
