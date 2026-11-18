@@ -177,6 +177,32 @@ section.dark .link-btn{color:var(--gold)}
 .add:hover{background:#2c241c}
 .add.added{background:var(--green);color:#fff}
 
+/* events calendar */
+.cal-wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px;align-items:start;margin-top:44px}
+.cal{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.cal-head h3{margin:0;font-size:22px}
+.cal-nav{border:1px solid var(--line);background:#fff;border-radius:9px;width:44px;height:44px;font-size:18px;color:var(--text)}
+.cal-nav:hover{border-color:var(--gold)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.cal-dow{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 0}
+.cal-day{min-height:52px;border-radius:9px;padding:6px 4px;font-size:14px;color:var(--text);background:transparent;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;gap:4px}
+.cal-day.blank{visibility:hidden}
+.cal-day.today{border-color:var(--gold)}
+.cal-day.has{background:var(--ink);color:var(--gold);font-weight:700;cursor:pointer}
+.cal-day.has:hover{background:#2c241c}
+.cal-day .dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.ev-list{display:grid;gap:12px}
+.ev{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;align-items:center}
+.ev-date{width:58px;flex-shrink:0;text-align:center;background:var(--ink);color:#fff;border-radius:10px;padding:8px 0;line-height:1.1}
+.ev-date small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.ev-date b{font-family:"Bricolage Grotesque";font-size:24px}
+.ev-info{flex:1;min-width:0}
+.ev-info b{display:block;font-size:16px}
+.ev-info span{font-size:14px;color:var(--muted)}
+.ev .add{white-space:nowrap}
+@media (max-width:980px){.cal-wrap{grid-template-columns:1fr}}
+
 /* things to do */
 .ttd{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
 .ttd-card{border-radius:18px;padding:24px;min-height:210px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;position:relative;overflow:hidden;text-align:left;border:0;transition:.25s}
@@ -440,6 +466,7 @@ footer.site button:hover,footer.site a:hover{color:var(--gold)}
       <div class="dir-grid">
         <aside class="side" id="dirSide" aria-label="Categories"></aside>
         <div>
+          <div id="dirCalSlot" style="margin:-44px 0 32px"></div>
           <div class="count-line" id="dirCount"></div>
           <div class="listings" id="dirListings"></div>
           <div id="dirNote"></div>
@@ -484,6 +511,16 @@ footer.site button:hover,footer.site a:hover{color:var(--gold)}
         <div><h2>Things to Do</h2><p>Eat, drink, tour and celebrate — in Las Vegas, Henderson and beyond.</p></div>
       </div>
       <div class="ttd" id="ttdGrid"></div>
+      <div id="ttdCalSlot"><div id="calSection">
+      <div class="sec-head" style="margin-top:56px;margin-bottom:0"><div><h2>Events calendar</h2><p>Celebrations, shows and community events in Las Vegas and Henderson. Have an event? Text 702-415-1303 to get it listed.</p></div></div>
+      <div class="cal-wrap">
+        <div class="cal" aria-label="Events calendar">
+          <div class="cal-head"><button class="cal-nav" data-cal="-1" aria-label="Previous month">‹</button><h3 id="calTitle"></h3><button class="cal-nav" data-cal="1" aria-label="Next month">›</button></div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <div><h3 style="font-size:20px;margin:0 0 12px">Upcoming events</h3><div class="ev-list" id="evList"></div></div>
+      </div>
+      </div></div>
     </div>
   </section>
 </div>
@@ -1034,7 +1071,7 @@ const TTD=[
 ];
 
 /* ---------- state ---------- */
-const S={dirCat:"All",dirQ:"",mCat:"All",mQ:"",cart:{}};
+const S={dirCat:"All",dirQ:"",mCat:"All",mQ:"",cart:{},calY:new Date().getFullYear(),calM:new Date().getMonth()};
 try{const c=JSON.parse(localStorage.getItem("bb_cart")||"{}");if(c&&typeof c==="object")S.cart=c}catch(e){}
 const save=()=>{try{localStorage.setItem("bb_cart",JSON.stringify(S.cart))}catch(e){}};
 const money=n=>"$"+n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,",");
@@ -1065,7 +1102,10 @@ function renderHome(){
   $$("[data-count]").forEach(b=>{b.textContent=catCount(b.dataset.count)});$$("[data-count-products]").forEach(b=>{b.textContent=PRODUCTS.length});
 }
 
+const CAL_CATS=["Things to Do in Black Vegas","Community Outreach","Community Events"];
+function placeCal(inDir){const mode=inDir&&S.dirCat!=="Things to Do in Black Vegas"?"community":"ttd";if(S.calMode!==mode){S.calMode=mode;renderCal()}const c=$("#calSection"),slot=inDir?$("#dirCalSlot"):$("#ttdCalSlot");if(c&&slot&&c.parentNode!==slot)slot.appendChild(c)}
 function renderDirectory(){
+  placeCal(CAL_CATS.includes(S.dirCat));
   if(S.dirCat!=="All")track("view_category",{category:S.dirCat,section:"Directory"},"dircat");
   const groups={};DIR_CATS.forEach(c=>(groups[c.g]=groups[c.g]||[]).push(c));
   const total=LISTINGS.length;
@@ -1097,6 +1137,32 @@ function renderMarket(){
   if(s==="low")list=[...list].sort((a,b)=>(a.p??1e9)-(b.p??1e9));
   if(s==="high")list=[...list].sort((a,b)=>(b.p??-1)-(a.p??-1));
   $("#mProducts").innerHTML=list.length?list.map(productCard).join(""):S.mCat==="Black Auto Trader"&&!q?`<div class="result-note" style="grid-column:1/-1"><h3>Black Auto Trader</h3><p>Find cars, trucks and vehicles from Black-owned dealers and sellers. Listings are coming soon.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-gold" data-go="directory" data-cat="Black Auto Trader">See Black Auto Trader dealers</button><a class="btn btn-dark" href="#list-your-business">Sell a vehicle</a></div></div>`:`<div class="result-note" style="grid-column:1/-1"><h3>No products found</h3><p>Try another search or category.</p></div>`;
+}
+
+/* ---------- events (cal: which calendars show it — "ttd" = Things to Do, "community" = Community Outreach; date: YYYY-MM-DD, or weekly: 0=Sun…6=Sat for a repeating event; listing: the directory name to open) ---------- */
+const EVENTS=[
+ {t:"The Gathering",cal:["community"],weekly:5,when:"Every Friday · 5:00 PM",where:"Mariposa"},
+ {t:"Henderson MLK Celebration",cal:["ttd","community"],date:"2027-01-18",when:"Martin Luther King Jr. Day · time & place TBA",where:"Henderson, NV",listing:"Henderson MLK Celebration"},
+ {t:"Henderson Juneteenth",cal:["ttd","community"],date:"2027-06-19",when:"Juneteenth · time & place TBA",where:"Henderson, NV",listing:"Henderson Juneteenth"}
+];
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const evDate=d=>{const [y,m,dd]=d.split("-").map(Number);return new Date(y,m-1,dd)};
+function renderCal(){
+  const EV=EVENTS.filter(e=>(e.cal||["ttd","community"]).includes(S.calMode||"ttd"));
+  const y=S.calY,m=S.calM,first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),now=new Date();
+  $("#calTitle").textContent=MONTHS[m]+" "+y;
+  let h=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<div class="cal-dow">${d}</div>`).join("");
+  for(let i=0;i<first;i++)h+=`<div class="cal-day blank"></div>`;
+  for(let d=1;d<=days;d++){
+    const key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;const dow=new Date(y,m,d).getDay();const ev=EV.filter(e=>e.date===key||e.weekly===dow);
+    const today=now.getFullYear()===y&&now.getMonth()===m&&now.getDate()===d;
+    h+=ev.length?`<button class="cal-day has${today?" today":""}" data-ev="${esc(key)}" aria-label="${esc(ev.map(e=>e.t).join(", "))}, ${MONTHS[m]} ${d}">${d}<span class="dot"></span></button>`:`<div class="cal-day${today?" today":""}">${d}</div>`;
+  }
+  $("#calGrid").innerHTML=h;
+  const start=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const up=EV.map(e=>{if(e.weekly==null)return e;const n=new Date(start);n.setDate(n.getDate()+((e.weekly-n.getDay()+7)%7));return {...e,date:iso(n)}}).filter(e=>evDate(e.date)>=start).sort((a,b)=>a.date.localeCompare(b.date));
+  $("#evList").innerHTML=up.length?up.map(e=>{const d=evDate(e.date),l=LISTINGS.find(x=>x.n===e.listing);return `<div class="ev" id="ev-${e.weekly!=null?"w"+e.weekly:e.date}"><div class="ev-date"><small>${MONTHS[d.getMonth()].slice(0,3)}</small><b>${d.getDate()}</b></div><div class="ev-info"><b>${esc(e.t)}</b><span>${esc(e.when)} · ${esc(e.where)}</span></div>${l?`<button class="add" data-view="${l.id}">Details</button>`:""}</div>`}).join(""):`<div class="result-note"><h3>No upcoming events yet</h3><p>Check back soon, or text 702-415-1303 to list your event.</p></div>`;
 }
 
 function renderTTD(){
@@ -1201,11 +1267,12 @@ function route(){
   $$("nav.main a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+h));
   $("#nav").classList.remove("open");$("#menuBtn").setAttribute("aria-expanded","false");
   if(h==="directory")renderDirectory();
+  if(h==="things-to-do")placeCal(false);
   if(h==="black-market")renderMarket();
   window.scrollTo({top:0,behavior:"instant"in window?"instant":"auto"});
 }
 function go(view){if(location.hash==="#"+view)route();else location.hash=view}
-function toResults(sel){requestAnimationFrame(()=>{const el=$(sel);if(!el)return;const hdr=($("header.site")||{}).offsetHeight||70;window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-hdr-16,behavior:"smooth"})})}
+function toResults(sel){if(sel==="#dirCount"&&CAL_CATS.includes(S.dirCat))sel="#dirCalSlot";requestAnimationFrame(()=>{const el=$(sel);if(!el)return;const hdr=($("header.site")||{}).offsetHeight||70;window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-hdr-16,behavior:"smooth"})})}
 
 /* ---------- events ---------- */
 function playTV(box){
@@ -1227,6 +1294,8 @@ document.addEventListener("click",e=>{
   if(t.dataset.add){addToCart(t.dataset.add);return}
   if(t.dataset.inc){if(stockLeft(t.dataset.inc)<=0){toast("Sorry, no more in stock");return}S.cart[t.dataset.inc]++;save();renderCart();return}
   if(t.dataset.dec){const id=t.dataset.dec;S.cart[id]--;if(S.cart[id]<=0)delete S.cart[id];save();renderCart();refreshProducts();return}
+  if(t.dataset.cal){S.calM+=+t.dataset.cal;if(S.calM<0){S.calM=11;S.calY--}if(S.calM>11){S.calM=0;S.calY++}renderCal();return}
+  if(t.dataset.ev){const [yy,mm,dd]=t.dataset.ev.split("-").map(Number);const el=document.getElementById("ev-"+t.dataset.ev)||document.getElementById("ev-w"+new Date(yy,mm-1,dd).getDay());if(el){el.scrollIntoView({behavior:"smooth",block:"center"});el.style.borderColor="var(--gold)";setTimeout(()=>el.style.borderColor="",1600)}return}
   if(t.dataset.view){listingModal(t.dataset.view,false);return}
   if(t.dataset.contact){listingModal(t.dataset.contact,true);return}
   if(t.dataset.catPick!==undefined){S.dirCat=t.dataset.catPick;S.dirQ="";$("#dirQ").value="";renderDirectory();return}
@@ -1260,7 +1329,7 @@ handleForm($("#bizForm"),$("#bizNotice"),d=>({subject:"New BlackBook listing: "+
 handleForm($("#contactForm"),$("#contactNotice"),d=>({subject:d.subject||"Message from The BlackBook website",body:`From: ${d.name} (${d.email})\n\n${d.message}`}));
 
 $("#yr").textContent=new Date().getFullYear();
-renderHome();renderTTD();renderCart();route();
+renderHome();renderTTD();renderCal();renderCart();route();
 })();
 </script>
 </body>
