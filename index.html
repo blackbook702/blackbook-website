@@ -1155,8 +1155,10 @@ function route(){
   if(h==="directory")renderDirectory();
   if(h==="black-market")renderMarket();
   window.scrollTo({top:0,behavior:"instant"in window?"instant":"auto"});
+  if(h==="directory"&&S.toResults){S.toResults=false;requestAnimationFrame(toResults)}
 }
 function go(view){if(location.hash==="#"+view)route();else location.hash=view}
+function toResults(){const el=$("#dirCount");if(!el)return;const hd=document.querySelector("header.site");const y=el.getBoundingClientRect().top+window.scrollY-((hd&&hd.offsetHeight)||0)-12;window.scrollTo({top:Math.max(0,y),behavior:"instant"in window?"instant":"auto"})}
 
 /* ---------- events ---------- */
 function playTV(box){
@@ -1180,16 +1182,16 @@ document.addEventListener("click",e=>{
   if(t.dataset.dec){const id=t.dataset.dec;S.cart[id]--;if(S.cart[id]<=0)delete S.cart[id];save();renderCart();refreshProducts();return}
   if(t.dataset.view){listingModal(t.dataset.view,false);return}
   if(t.dataset.contact){listingModal(t.dataset.contact,true);return}
-  if(t.dataset.catPick!==undefined){S.dirCat=t.dataset.catPick;S.dirQ="";$("#dirQ").value="";renderDirectory();return}
+  if(t.dataset.catPick!==undefined){S.dirCat=t.dataset.catPick;S.dirQ="";$("#dirQ").value="";renderDirectory();toResults();return}
   if(t.dataset.mcatPick!==undefined){S.mCat=t.dataset.mcatPick;renderMarket();return}
   if(t.dataset.go){
-    if(t.dataset.cat!==undefined){S.dirCat=t.dataset.cat||"All";S.dirQ=t.dataset.q||"";$("#dirQ").value=S.dirQ}
+    if(t.dataset.cat!==undefined){S.dirCat=t.dataset.cat||"All";S.dirQ=t.dataset.q||"";$("#dirQ").value=S.dirQ;S.toResults=true}
     if(t.dataset.mcat){S.mCat=t.dataset.mcat}
     go(t.dataset.go);return
   }
   if(t.dataset.mcat){S.mCat=t.dataset.mcat;renderMarket();$("#mChips").scrollIntoView({behavior:"smooth",block:"center"})}
 });
-$("#heroSearch").addEventListener("submit",e=>{e.preventDefault();S.dirQ=$("#heroQ").value;S.dirCat=$("#heroCat").value;$("#dirQ").value=S.dirQ;go("directory")});
+$("#heroSearch").addEventListener("submit",e=>{e.preventDefault();S.dirQ=$("#heroQ").value;S.dirCat=$("#heroCat").value;$("#dirQ").value=S.dirQ;S.toResults=true;go("directory")});
 $("#dirQ").addEventListener("input",e=>{S.dirQ=e.target.value;renderDirectory()});
 $("#dirSort").addEventListener("change",renderDirectory);
 $("#mQ").addEventListener("input",e=>{S.mQ=e.target.value;renderMarket()});
